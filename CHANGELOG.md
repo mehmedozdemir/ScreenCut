@@ -1,4 +1,4 @@
-# Değişiklik Günlüğü
+# Changelog
 
 Bu dosya [release-please](https://github.com/googleapis/release-please) tarafından
 [Conventional Commits](https://www.conventionalcommits.org/tr/v1.0.0/) mesajlarından otomatik üretilir.
