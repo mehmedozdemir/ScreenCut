@@ -1,0 +1,23 @@
+<Project>
+  <!-- Version is bumped automatically by release-please. Do not edit by hand. -->
+  <PropertyGroup>
+    <Version>0.0.0</Version> <!-- x-release-please-version -->
+    <Product>ScreenCut</Product>
+    <Authors>mehmedozdemir</Authors>
+    <Copyright>Copyright (c) 2026 ScreenCut contributors</Copyright>
+    <RepositoryUrl>https://github.com/mehmedozdemir/ScreenCut</RepositoryUrl>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+    <Deterministic>true</Deterministic>
+    <ContinuousIntegrationBuild Condition="'$(GITHUB_ACTIONS)' == 'true'">true</ContinuousIntegrationBuild>
+  </PropertyGroup>
+</Project>
