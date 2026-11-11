@@ -1,0 +1,30 @@
+{
+  "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json",
+  "release-type": "simple",
+  "include-v-in-tag": true,
+  "include-component-in-tag": false,
+  "bump-minor-pre-major": true,
+  "bump-patch-for-minor-pre-major": false,
+  "changelog-sections": [
+    { "type": "feat", "section": "✨ Yeni Özellikler" },
+    { "type": "fix", "section": "🐛 Hata Düzeltmeleri" },
+    { "type": "perf", "section": "⚡ Performans" },
+    { "type": "refactor", "section": "♻️ İyileştirmeler" },
+    { "type": "docs", "section": "📝 Dokümantasyon", "hidden": true },
+    { "type": "revert", "section": "⏪ Geri Alınanlar" },
+    { "type": "build", "section": "📦 Derleme", "hidden": true },
+    { "type": "ci", "section": "🤖 CI", "hidden": true },
+    { "type": "test", "section": "🧪 Testler", "hidden": true },
+    { "type": "style", "section": "🎨 Biçim", "hidden": true },
+    { "type": "chore", "section": "🔧 Bakım", "hidden": true }
+  ],
+  "packages": {
+    ".": {
+      "package-name": "ScreenCut",
+      "changelog-path": "CHANGELOG.md",
+      "extra-files": [
+        { "type": "generic", "path": "Directory.Build.props" }
+      ]
+    }
+  }
+}

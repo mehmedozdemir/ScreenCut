@@ -1,0 +1,68 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: build
+    runs-on: windows-latest
+    env:
+      DOTNET_NOLOGO: true
+      DOTNET_CLI_TELEMETRY_OPTOUT: true
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+
+      - name: Restore (locked)
+        run: dotnet restore ScreenCut.slnx --locked-mode
+
+      - name: Lint (dotnet format)
+        run: dotnet format ScreenCut.slnx --verify-no-changes --no-restore
+
+      - name: Build
+        run: dotnet build ScreenCut.slnx --configuration Release --no-restore
+
+      - name: Test
+        run: dotnet test ScreenCut.slnx --configuration Release --no-build --logger "trx;LogFileName=test-results.trx" --results-directory TestResults --collect "XPlat Code Coverage"
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: TestResults
+          retention-days: 14
+
+      - name: Vulnerable dependency scan
+        shell: pwsh
+        run: |
+          $report = dotnet list ScreenCut.slnx package --vulnerable --include-transitive 2>&1 | Out-String
+          Write-Output $report
+          if ($report -match 'has the following vulnerable packages') { throw 'Vulnerable packages found.' }
+
+      - name: Publish preview build
+        if: github.event_name != 'pull_request'
+        shell: pwsh
+        run: ./scripts/publish.ps1 -Version "0.0.0-ci.${{ github.run_number }}" -Runtimes win-x64 -SkipFrameworkDependent
+
+      - name: Upload preview build
+        if: github.event_name != 'pull_request'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ScreenCut-preview-${{ github.run_number }}
+          path: artifacts/*.zip
+          retention-days: 14
