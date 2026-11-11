@@ -1,0 +1,102 @@
+<Window x:Class="ScreenCut.Settings.SettingsWindow"
+        x:ClassModifier="internal"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="ScreenCut — Ayarlar"
+        Width="560"
+        SizeToContent="Height"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen"
+        Icon="pack://application:,,,/Assets/app.ico"
+        FontFamily="Segoe UI"
+        FontSize="13"
+        Background="#FFF7F7F8">
+
+    <Window.Resources>
+        <Style TargetType="TextBlock" x:Key="Label">
+            <Setter Property="Margin" Value="0,0,0,4" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Foreground" Value="#FF202124" />
+        </Style>
+        <Style TargetType="TextBlock" x:Key="Hint">
+            <Setter Property="Margin" Value="0,4,0,0" />
+            <Setter Property="Foreground" Value="#FF5F6368" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="Padding" Value="6,4" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="Padding" Value="14,6" />
+            <Setter Property="MinWidth" Value="88" />
+        </Style>
+    </Window.Resources>
+
+    <StackPanel Margin="24,20">
+        <TextBlock Text="Kayıt" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,12" />
+
+        <TextBlock Style="{StaticResource Label}" Text="Kayıt klasörü" />
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBox x:Name="SaveFolderBox" AutomationProperties.Name="Kayıt klasörü" />
+            <Button Grid.Column="1" Content="Gözat…" Margin="8,0,0,0" Click="OnBrowseClick" />
+        </Grid>
+
+        <TextBlock Style="{StaticResource Label}" Text="Dosya adı şablonu" Margin="0,16,0,4" />
+        <TextBox x:Name="PatternBox" TextChanged="OnPatternChanged" AutomationProperties.Name="Dosya adı şablonu" />
+        <TextBlock x:Name="PatternPreview" Style="{StaticResource Hint}" />
+        <TextBlock Style="{StaticResource Hint}"
+                   Text="Kullanılabilir alanlar: {yyyy} yıl, {MM} ay, {dd} gün, {HH} saat, {mm} dakika, {ss} saniye" />
+
+        <Grid Margin="0,16,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="160" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <StackPanel>
+                <TextBlock Style="{StaticResource Label}" Text="Dosya biçimi" />
+                <ComboBox x:Name="FormatCombo" SelectionChanged="OnFormatChanged" AutomationProperties.Name="Dosya biçimi">
+                    <ComboBoxItem Content="PNG (kayıpsız)" />
+                    <ComboBoxItem Content="JPEG (küçük boyut)" />
+                </ComboBox>
+            </StackPanel>
+            <StackPanel Grid.Column="1" Margin="20,0,0,0" x:Name="QualityPanel">
+                <TextBlock x:Name="QualityLabel" Style="{StaticResource Label}" Text="JPEG kalitesi" />
+                <Slider x:Name="QualitySlider" Minimum="50" Maximum="100" TickFrequency="5" IsSnapToTickEnabled="True"
+                        ValueChanged="OnQualityChanged" AutomationProperties.Name="JPEG kalitesi" />
+            </StackPanel>
+        </Grid>
+
+        <TextBlock Text="Genel" FontSize="16" FontWeight="SemiBold" Margin="0,24,0,8" />
+        <CheckBox x:Name="StartWithWindowsCheck" Content="Windows açılışında başlat" />
+
+        <TextBlock Text="Kısayollar" FontSize="16" FontWeight="SemiBold" Margin="0,24,0,8" />
+        <Border Background="White" BorderBrush="#FFE0E0E0" BorderThickness="1" CornerRadius="6" Padding="12,10">
+            <TextBlock Foreground="#FF3C4043" LineHeight="21">
+                <Run FontWeight="SemiBold">PrtScn</Run> alan / pencere seç ·
+                <Run FontWeight="SemiBold">Alt+PrtScn</Run> etkin pencere<LineBreak />
+                <Run FontWeight="SemiBold">Shift+PrtScn</Run> bu ekran ·
+                <Run FontWeight="SemiBold">Ctrl+PrtScn</Run> tüm ekranlar<LineBreak />
+                <Run FontWeight="SemiBold">Ctrl+C / Enter</Run> kopyala ·
+                <Run FontWeight="SemiBold">Ctrl+S</Run> hızlı kaydet ·
+                <Run FontWeight="SemiBold">Ctrl+Shift+S</Run> farklı kaydet<LineBreak />
+                <Run FontWeight="SemiBold">Ctrl+Z / Ctrl+Y</Run> geri al / yinele ·
+                <Run FontWeight="SemiBold">Ctrl+R</Run> yeniden seç ·
+                <Run FontWeight="SemiBold">F5</Run> yeniden yakala
+            </TextBlock>
+        </Border>
+
+        <TextBlock x:Name="ErrorText" Foreground="#FFC62828" Margin="0,12,0,0" TextWrapping="Wrap" Visibility="Collapsed" />
+
+        <DockPanel Margin="0,20,0,0" LastChildFill="False">
+            <TextBlock x:Name="VersionText" DockPanel.Dock="Left" VerticalAlignment="Center" Foreground="#FF5F6368" FontSize="12" />
+            <Button DockPanel.Dock="Right" Content="İptal" IsCancel="True" Margin="8,0,0,0" />
+            <Button DockPanel.Dock="Right" Content="Kaydet" IsDefault="True" Click="OnSaveClick" />
+        </DockPanel>
+    </StackPanel>
+</Window>
